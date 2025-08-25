@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tom Prins - Zelfstandig werkend kok</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f8f8;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: #ecf0f1;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #e67e22;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23e67e22" width="1200" height="600"/><path fill="%23d35400" d="M0 300L50 280C100 260 200 220 300 200C400 180 500 180 600 200C700 220 800 260 900 280C1000 300 1100 300 1150 300L1200 300V600H1150C1100 600 1000 600 900 600C800 600 700 600 600 600C500 600 400 600 300 600C200 600 100 600 50 600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #e67e22;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        /* Content Sections */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #e67e22;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .experience-item, .cert-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #e67e22;
+        }
+
+        .experience-item h4 {
+            color: #e67e22;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item .period {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .experience-item .company {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Admin Panel */
+        .admin-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+        }
+
+        .admin-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .admin-form {
+            display: none;
+        }
+
+        .admin-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #e67e22;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #d35400;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Tom Prins</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">Over Mij</a></li>
+                <li><a href="#experience" class="nav-link">Ervaring</a></li>
+                <li><a href="#certificates" class="nav-link">Certificaten</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 id="chef-name">TOM PRINS</h1>
+                    <h2 id="chef-title">Zelfstandig werkend kok</h2>
+                    <p id="chef-motto" style="font-size: 1.2rem; margin-top: 1rem; max-width: 600px;">Een kok die versheid combineert met duurzaamheid en kwaliteit omhoog haalt door de puurheid van het product.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="container">
+                <div class="section">
+                    <h2>Over Mij</h2>
+                    <div class="profile-grid">
+                        <div class="profile-card">
+                            <h3>Persoonlijk Profiel</h3>
+                            <p id="personal-profile">Ik ben een kok die het mooiste aan deze tijd vind om de versheid te combineren met duurzaamheid. De kwaliteit omhoog te halen door de puurheid van het product. Ik ben gepassioneerd, een harde werker en erg gedreven.</p>
+                            
+                            <div class="contact-info">
+                                <h3>Contact Informatie</h3>
+                                <p><strong>📱 Mobiel:</strong> <span id="contact-phone">06 - 8330086</span></p>
+                                <p><strong>📧 E-mail:</strong> <span id="contact-email">Tombaprins@gmail.com</span></p>
+                                <p><strong>📍 Adres:</strong> <span id="contact-address">Wamelplein 100 Amsterdam</span></p>
+                                <p><strong>🌍 Nationaliteit:</strong> <span id="contact-nationality">Nederlands</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <h3>Filosofie</h3>
+                            <p>Als chef geloof ik in de kracht van verse, duurzame ingrediënten. Mijn passie ligt in het creëren van gerechten die niet alleen de smaak prikkelen, maar ook respect tonen voor de natuur en onze omgeving.</p>
+                            
+                            <h3 style="margin-top: 2rem;">Specialiteiten</h3>
+                            <ul style="margin-top: 1rem;">
+                                <li>Moderne Nederlandse keuken</li>
+                                <li>Vegetarische en duurzame gerechten</li>
+                                <li>Seizoensgebonden menu's</li>
+                                <li>Team leiderschap en training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Page -->
+        <div id="experience" class="page">
+            <div class="container">
+                <div class="section">
+                    <h2>Werkervaring</h2>
+                    
+                    <div class="experience-item">
+                        <h4>Sous Chef</h4>
+                        <div class="period">2024</div>
+                        <div class="company">Van der Valk A1, Amersfoort</div>
+                        <p>Samen met de chef en executive chef een gezond bedrijf creëren. Het gastronoom restaurant, live cooking, Club Toekan met de chef kwalitatief ophogen. Het bedrijf als een geheel te laten functioneren, een team creëren die flexibel en op top niveau kan presteren.</p>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Sous Chef</h4>
+                        <div class="period">2019 - 2023</div>
+                        <div class="company">TEN good food café, Amsterdam</div>
+                        <p>Ik ben bij Ten binnengekomen als chef de partie, uitgegroeid tot leermeester/souschef. In samenwerking met het stedelijk museum en mijn chef hebben wij een wereldkaart ontwikkeld. Deze kaart is na de corona pandemie gereduceerd tot een compactere kaart. In deze lastige periode in een leidinggevende rol hebben wij het publiek moeten terugwinnen waar versheid en vegetarisch de hoofdrollen innamen.</p>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Chef de partie</h4>
+                        <div class="period">2017 - 2018</div>
+                        <div class="company">Brasserie Paardenburg, Amstelveen</div>
+                        <p>Het coördineren en regelen van werkzaamheden waarbij ik uitga van de opdrachten van de chef kok/sous chef en van het algemene beleid in de keuken. Als entremetier vooral vegetarische gerechten, soepen en sausen met veel uitdaging gewerkt.</p>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Chef Kok</h4>
+                        <div class="period">2013 - 2017</div>
+                        <div class="company">Roediez, Diemen</div>
+                        <p>Deze keuken als chef geleid, het bedrijf verbeterd. De kaart aangepast naar een fris en modern geheel.</p>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Zelfstandig werk kok/Chef kok</h4>
+                        <div class="period">2007 - 2012</div>
+                        <div class="company">De herberg, Diemen</div>
+                        <p>Keuken leiden in samenwerking met mijn sous chef. Met veel voldoening deze keuken naar een hoger plan getrokken.</p>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Zelfstandig werkend kok</h4>
+                        <div class="period">2001 - 2005</div>
+                        <div class="company">Literair café de Engelbewaarder, Amsterdam</div>
+                        <p>Ik heb hier 4 jaar als kok zonder vaste kaart met veel plezier de keuken geleid. Elke dag met zo veel mogelijk verse producten telkens nieuwe gerechten ontwikkelen, op de kaart zetten en verbeteren.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificates Page -->
+        <div id="certificates" class="page">
+            <div class="container">
+                <div class="section">
+                    <h2>Certificaten & Kwalificaties</h2>
+                    
+                    <div class="cert-item">
+                        <h4>MBO Niveau 3 RoCa Amsterdam SVH</h4>
+                        <p><strong>Specialisatie:</strong> Zelfstandig werkend kok</p>
+                        <p>Een uitgebreide opleiding die alle aspecten van het koken op professioneel niveau omvat, van basis technieken tot gevorderde culinaire vaardigheden.</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h4>Leermeester Horeca</h4>
+                        <p>Gekwalificeerd om nieuwe generaties koks op te leiden en te begeleiden in hun professionele ontwikkeling binnen de horecabranche.</p>
+                    </div>
+
+                    <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 2rem;">
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Vaardigheden</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div>
+                                <h4 style="color: #e67e22; margin-bottom: 0.5rem;">Culinaire Technieken</h4>
+                                <ul>
+                                    <li>Moderne kooktechnieken</li>
+                                    <li>Menu ontwikkeling</li>
+                                    <li>Vegetarische specialiteiten</li>
+                                    <li>Sauzen en soepen</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 style="color: #e67e22; margin-bottom: 0.5rem;">Management</h4>
+                                <ul>
+                                    <li>Team leiderschap</li>
+                                    <li>Keuken organisatie</li>
+                                    <li>Training en coaching</li>
+                                    <li>Kwaliteitscontrole</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <div class="section">
+                    <h2>Contact</h2>
+                    <div class="profile-grid">
+                        <div class="profile-card">
+                            <h3>Neem Contact Op</h3>
+                            <div class="contact-info">
+                                <p><strong>📱 Mobiel:</strong> 06 - 8330086</p>
+                                <p><strong>📧 E-mail:</strong> Tombaprins@gmail.com</p>
+                                <p><strong>📍 Adres:</strong> Wamelplein 100 Amsterdam</p>
+                                <p><strong>🌍 Nationaliteit:</strong> Nederlands</p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <h3>Beschikbaarheid</h3>
+                            <p>Ik ben altijd geïnteresseerd in nieuwe uitdagingen en kansen om mijn passie voor koken te delen. Of het nu gaat om een vaste positie, freelance werk, of culinaire consultancy - neem gerust contact op.</p>
+                            
+                            <h4 style="margin-top: 1.5rem; color: #e67e22;">Specialisaties:</h4>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Restaurant management</li>
+                                <li>Menu ontwikkeling</li>
+                                <li>Team training</li>
+                                <li>Culinaire consultancy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Tom Prins - Zelfstandig werkend kok. Alle rechten voorbehouden.</p>
+    </footer>
+
+    <!-- Admin Panel -->
+    <div id="adminOverlay" class="admin-overlay">
+        <div class="admin-panel">
+            <h2>Admin Panel</h2>
+            
+            <!-- Login Form -->
+            <div id="loginForm" class="admin-form active">
+                <div class="form-group">
+                    <label for="username">Gebruikersnaam:</label>
+                    <input type="text" id="username" placeholder="Voer gebruikersnaam in">
+                </div>
+                <div class="form-group">
+                    <label for="password">Wachtwoord:</label>
+                    <input type="password" id="password" placeholder="Voer wachtwoord in">
+                </div>
+                <button class="btn" onclick="login()">Inloggen</button>
+                <button class="btn btn-secondary" onclick="closeAdmin()">Annuleren</button>
+                <div id="loginError" style="color: red; margin-top: 1rem; display: none;">Onjuiste inloggegevens!</div>
+            </div>
+
+            <!-- Edit Form -->
+            <div id="editForm" class="admin-form">
+                <div class="form-group">
+                    <label for="editChefName">Chef Naam:</label>
+                    <input type="text" id="editChefName">
+                </div>
+                <div class="form-group">
+                    <label for="editChefTitle">Chef Titel:</label>
+                    <input type="text" id="editChefTitle">
+                </div>
+                <div class="form-group">
+                    <label for="editChefMotto">Chef Motto:</label>
+                    <textarea id="editChefMotto"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editPersonalProfile">Persoonlijk Profiel:</label>
+                    <textarea id="editPersonalProfile"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editContactPhone">Telefoon:</label>
+                    <input type="text" id="editContactPhone">
+                </div>
+                <div class="form-group">
+                    <label for="editContactEmail">E-mail:</label>
+                    <input type="email" id="editContactEmail">
+                </div>
+                <div class="form-group">
+                    <label for="editContactAddress">Adres:</label>
+                    <input type="text" id="editContactAddress">
+                </div>
+                <div class="form-group">
+                    <label for="editContactNationality">Nationaliteit:</label>
+                    <input type="text" id="editContactNationality">
+                </div>
+                <button class="btn" onclick="saveChanges()">Wijzigingen Opslaan</button>
+                <button class="btn btn-secondary" onclick="logout()">Uitloggen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                showPage(targetId);
+                
+                // Update active nav link
+                navLinks.forEach(nl => nl.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Admin panel functionality
+        let isLoggedIn = false;
+        
+        // Data storage in memory
+        const websiteData = {
+            chefName: "TOM PRINS",
+            chefTitle: "Zelfstandig werkend kok",
+            chefMotto: "Een kok die versheid combineert met duurzaamheid en kwaliteit omhoog haalt door de puurheid van het product.",
+            personalProfile: "Ik ben een kok die het mooiste aan deze tijd vind om de versheid te combineren met duurzaamheid. De kwaliteit omhoog te halen door de puurheid van het product. Ik ben gepassioneerd, een harde werker en erg gedreven.",
+            contactPhone: "06 - 8330086",
+            contactEmail: "Tombaprins@gmail.com",
+            contactAddress: "Wamelplein 100 Amsterdam",
+            contactNationality: "Nederlands"
+        };
+
+        // Ctrl+1 shortcut for admin panel (only on home page)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === '1' && document.getElementById('home').classList.contains('active')) {
+                e.preventDefault();
+                openAdmin();
+            }
+        });
+
+        function openAdmin() {
+            document.getElementById('adminOverlay').style.display = 'block';
+            if (isLoggedIn) {
+                showEditForm();
+            } else {
+                showLoginForm();
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminOverlay').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.add('active');
+            document.getElementById('editForm').classList.remove('active');
+        }
+
+        function showEditForm() {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('editForm').classList.add('active');
+            
+            // Populate form with current data
+            document.getElementById('editChefName').value = websiteData.chefName;
+            document.getElementById('editChefTitle').value = websiteData.chefTitle;
+            document.getElementById('editChefMotto').value = websiteData.chefMotto;
+            document.getElementById('editPersonalProfile').value = websiteData.personalProfile;
+            document.getElementById('editContactPhone').value = websiteData.contactPhone;
+            document.getElementById('editContactEmail').value = websiteData.contactEmail;
+            document.getElementById('editContactAddress').value = websiteData.contactAddress;
+            document.getElementById('editContactNationality').value = websiteData.contactNationality;
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'admin' && password === 'Tom12345!') {
+                isLoggedIn = true;
+                showEditForm();
+                document.getElementById('loginError').style.display = 'none';
+                // Clear login fields
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            closeAdmin();
+        }
+
+        function saveChanges() {
+            // Update data object
+            websiteData.chefName = document.getElementById('editChefName').value;
+            websiteData.chefTitle = document.getElementById('editChefTitle').value;
+            websiteData.chefMotto = document.getElementById('editChefMotto').value;
+            websiteData.personalProfile = document.getElementById('editPersonalProfile').value;
+            websiteData.contactPhone = document.getElementById('editContactPhone').value;
+            websiteData.contactEmail = document.getElementById('editContactEmail').value;
+            websiteData.contactAddress = document.getElementById('editContactAddress').value;
+            websiteData.contactNationality = document.getElementById('editContactNationality').value;
+            
+            // Update website content
+            updateWebsiteContent();
+            
+            alert('Wijzigingen succesvol opgeslagen!');
+            closeAdmin();
+        }
+
+        function updateWebsiteContent() {
+            // Update hero section
+            document.getElementById('chef-name').textContent = websiteData.chefName;
+            document.getElementById('chef-title').textContent = websiteData.chefTitle;
+            document.getElementById('chef-motto').textContent = websiteData.chefMotto;
+            
+            // Update about section
+            document.getElementById('personal-profile').textContent = websiteData.personalProfile;
+            
+            // Update contact information
+            document.getElementById('contact-phone').textContent = websiteData.contactPhone;
+            document.getElementById('contact-email').textContent = websiteData.contactEmail;
+            document.getElementById('contact-address').textContent = websiteData.contactAddress;
+            document.getElementById('contact-nationality').textContent = websiteData.contactNationality;
+            
+            // Update navigation logo
+            document.querySelector('.logo').textContent = websiteData.chefName;
+        }
+
+        // Initialize website with current data
+        updateWebsiteContent();
+    </script>
+</body>
+</html>
