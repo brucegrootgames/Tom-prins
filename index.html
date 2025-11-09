@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Tom Prins - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #3d2817;
+            line-height: 1.6;
+            background: #faf8f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #c7522a 0%, #e5823a 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.3em;
+            font-style: italic;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(199, 82, 42, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #3d2817;
+            text-decoration: none;
+            margin: 0 25px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+
+        nav a:hover, nav a.active {
+            color: #c7522a;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            min-height: 60vh;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #c7522a;
+            text-align: center;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #e5823a;
+        }
+
+        footer {
+            background: #c7522a;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-item a:hover {
+            opacity: 0.8;
+        }
+
+        /* HOME PAGE STYLES */
+        .hero {
+            background: white;
+            padding: 80px 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(199, 82, 42, 0.1);
+            text-align: center;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #5d4037;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #e5823a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            font-family: 'Arial', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: #c7522a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #e5823a;
+            border: 2px solid #e5823a;
+        }
+
+        .btn-secondary:hover {
+            background: #fff3e6;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .highlight-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(199, 82, 42, 0.08);
+            text-align: center;
+            transition: transform 0.3s;
+            border-top: 4px solid #e5823a;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight-card h3 {
+            font-size: 1.5em;
+            color: #c7522a;
+            margin-bottom: 15px;
+        }
+
+        .highlight-card p {
+            color: #5d4037;
+            line-height: 1.6;
+        }
+
+        /* PROFILE PAGE */
+        .profile {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(199, 82, 42, 0.08);
+            text-align: center;
+            font-size: 1.15em;
+            line-height: 1.8;
+        }
+
+        /* GALLERY PAGE */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(199, 82, 42, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(199, 82, 42, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* EXPERIENCE PAGE */
+        .experience-item {
+            background: white;
+            padding: 35px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(199, 82, 42, 0.08);
+            border-left: 4px solid #e5823a;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .experience-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 25px rgba(199, 82, 42, 0.15);
+        }
+
+        .experience-item h3 {
+            color: #c7522a;
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .experience-item .period {
+            color: #8d6e63;
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .experience-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-item li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .experience-item li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #e5823a;
+            font-weight: bold;
+        }
+
+        /* CERTIFICATES PAGE */
+        .certificates {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cert-card {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(199, 82, 42, 0.08);
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            transition: transform 0.3s;
+            border-top: 4px solid #e5823a;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-card h3 {
+            color: #c7522a;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .cert-card p {
+            color: #5d4037;
+        }
+
+        /* CONTACT PAGE */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(199, 82, 42, 0.08);
+            border-left: 4px solid #e5823a;
+        }
+
+        .contact-card h3 {
+            color: #c7522a;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .contact-card a {
+            color: #e5823a;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: #c7522a;
+        }
+
+        .contact-card p {
+            font-size: 1.1em;
+            color: #5d4037;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .container {
+                padding: 40px 15px;
+            }
+
+            .hero {
+                padding: 40px 25px;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TOM PRINS</h1>
+        <p>Zelfstandig Werkend Kok</p>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showPage('home')" class="active" id="nav-home">Home</a>
+        <a href="#" onclick="showPage('profiel')" id="nav-profiel">Profiel</a>
+        <a href="#" onclick="showPage('gallerij')" id="nav-gallerij">Gallerij</a>
+        <a href="#" onclick="showPage('ervaring')" id="nav-ervaring">Ervaring</a>
+        <a href="#" onclick="showPage('certificaten')" id="nav-certificaten">Certificaten</a>
+        <a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a>
+    </nav>
+
+    <div class="container">
+        <div id="content">
+            <div class="hero">
+                <h2>Welkom</h2>
+                <p>Passie voor versheid, duurzaamheid en de puurheid van het product. Met meer dan 20 jaar ervaring in de horeca, combineer ik ambacht met creativiteit om unieke culinaire ervaringen te creëren.</p>
+                <div class="cta-buttons">
+                    <a href="#" onclick="showPage('gallerij')" class="btn">Bekijk Mijn Werk</a>
+                    <a href="#" onclick="showPage('contact')" class="btn btn-secondary">Neem Contact Op</a>
+                </div>
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-card">
+                    <h3>20+ Jaar Ervaring</h3>
+                    <p>Van literaire cafés tot gastronomische restaurants in Amsterdam en omgeving</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>Vers & Duurzaam</h3>
+                    <p>Specialisatie in seizoensgebonden producten en vegetarische gerechten</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>Leidinggevende Rol</h3>
+                    <p>Ervaring als Chef Kok en Sous Chef met focus op teamontwikkeling</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h2 style="color: white; margin-bottom: 20px;">Contact</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <span>Telefoon:</span>
+                <a href="tel:0683330086">06 - 8330086</a>
+            </div>
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:Tombaprins@gmail.com">Tombaprins@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>Adres:</span>
+                <span>Wamelplein 100, Amsterdam</span>
+            </div>
+        </div>
+        <p style="margin-top: 40px; opacity: 0.8;">© 2024 Tom Prins - Zelfstandig Werkend Kok</p>
+    </footer>
+
+    <script>
+        const pages = {
+            home: `
+                <div class="hero">
+                    <h2>Welkom</h2>
+                    <p>Passie voor versheid, duurzaamheid en de puurheid van het product. Met meer dan 20 jaar ervaring in de horeca, combineer ik ambacht met creativiteit om unieke culinaire ervaringen te creëren.</p>
+                    <div class="cta-buttons">
+                        <a href="#" onclick="showPage('gallerij')" class="btn">Bekijk Mijn Werk</a>
+                        <a href="#" onclick="showPage('contact')" class="btn btn-secondary">Neem Contact Op</a>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <div class="highlight-card">
+                        <h3>20+ Jaar Ervaring</h3>
+                        <p>Van literaire cafés tot gastronomische restaurants in Amsterdam en omgeving</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>Vers & Duurzaam</h3>
+                        <p>Specialisatie in seizoensgebonden producten en vegetarische gerechten</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>Leidinggevende Rol</h3>
+                        <p>Ervaring als Chef Kok en Sous Chef met focus op teamontwikkeling</p>
+                    </div>
+                </div>
+            `,
+            profiel: `
+                <h2>Persoonlijk Profiel</h2>
+                <div class="profile">
+                    <p>Ik ben een kok die het mooiste aan deze tijd vind om de versheid te combineren met duurzaamheid. De kwaliteit omhoog te halen door de puurheid van het product. Ik ben gepassioneerd, een harde werker en erg gedreven.</p>
+                    <div style="margin-top: 40px;">
+                        <a href="#" onclick="showPage('ervaring')" class="btn">Bekijk Mijn Ervaring</a>
+                    </div>
+                </div>
+            `,
+            gallerij: `
+                <h2>Gallerij</h2>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="dish1.jpg" alt="Gerecht 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dish2.jpg" alt="Gerecht 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dish3.jpg" alt="Gerecht 3">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dish4.jpg" alt="Gerecht 4">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dish5.jpg" alt="Gerecht 5">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dish6.jpg" alt="Gerecht 6">
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 30px; color: #8d6e63; font-style: italic;">
+                     
+                </p>
+            `,
+            ervaring: `
+                <h2>Werkervaring</h2>
+                
+                <div class="experience-item">
+                    <h3>Sous Chef - Van der Valk A1, Amersfoort</h3>
+                    <div class="period">2024</div>
+                    <ul>
+                        <li>Samen met de chef en executive chef een gezond bedrijf creëren</li>
+                        <li>Het gastronoom restaurant, live cooking en Club Toekan met de chef kwalitatief ophogen</li>
+                        <li>Het bedrijf als een geheel te laten functioneren, een team creëren die flexibel en op top niveau kan presteren</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Sous Chef - TEN Good Food Café, Amsterdam</h3>
+                    <div class="period">2019 - 2023</div>
+                    <ul>
+                        <li>Binnengekomem als chef de partie, uitgegroeid tot leermeester/souschef</li>
+                        <li>In samenwerking met het Stedelijk Museum en mijn chef een wereldkaart ontwikkeld</li>
+                        <li>Na de corona pandemie de kaart gereduceerd tot een compactere versie</li>
+                        <li>In een leidinggevende rol het publiek teruggewonnen met versheid en vegetarisch als hoofdrollen</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Chef de Partie - Brasserie Paardenburg, Amstelveen</h3>
+                    <div class="period">2017 - 2018</div>
+                    <ul>
+                        <li>Het coördineren en regelen van werkzaamheden</li>
+                        <li>Als entremetier vooral vegetarische gerechten, soepen en sausen met veel uitdaging gewerkt</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Chef Kok - Roediez, Diemen</h3>
+                    <div class="period">2013 - 2017</div>
+                    <ul>
+                        <li>Deze keuken als chef geleid en het bedrijf verbeterd</li>
+                        <li>De kaart aangepast naar een fris en modern geheel</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Zelfstandig Werkend Kok / Chef Kok - De Herberg, Diemen</h3>
+                    <div class="period">2007 - 2012</div>
+                    <ul>
+                        <li>Keuken leiden in samenwerking met mijn sous chef</li>
+                        <li>Met veel voldoening deze keuken naar een hoger plan getrokken</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Zelfstandig Werkend Kok - Literair Café de Engelbewaarder, Amsterdam</h3>
+                    <div class="period">2001 - 2005</div>
+                    <ul>
+                        <li>4 jaar als kok zonder vaste kaart met veel plezier de keuken geleid</li>
+                        <li>Elke dag met zo veel mogelijk verse producten telkens nieuwe gerechten ontwikkelen, op de kaart zetten en verbeteren</li>
+                    </ul>
+                </div>
+            `,
+            certificaten: `
+                <h2>Certificaten</h2>
+                <div class="certificates">
+                    <div class="cert-card">
+                        <h3>MBO Niveau 3</h3>
+                        <p>RoCa Amsterdam SVH<br>Zelfstandig Werkend Kok</p>
+                    </div>
+                    <div class="cert-card">
+                        <h3>Leermeester</h3>
+                        <p>Horeca</p>
+                    </div>
+                </div>
+            `,
+            contact: `
+                <h2>Neem Contact Op</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>Telefoon</h3>
+                        <a href="tel:0683330086">06 - 8330086</a>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <a href="mailto:Tombaprins@gmail.com">Tombaprins@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Adres</h3>
+                        <p>Wamelplein 100<br>Amsterdam</p>
+                    </div>
+                </div>
+            `
+        };
+
+        function showPage(pageName) {
+            event.preventDefault();
+            
+            // Update content
+            document.getElementById('content').innerHTML = pages[pageName];
+            
+            // Update nav active state
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            document.getElementById('nav-' + pageName).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
